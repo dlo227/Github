@@ -269,4 +269,19 @@ We really hope that you will enjoy the convenience and flexibility of the user o
   * [Ubuntu MATE’s Lead Creates a Nifty Tool to Help Install 3rd Party Deb Packages](https://news.itsfoss.com/deb-get-ubuntu/) - **It's FOSS**
   * [Easily Get 3rd-Party Software on Ubuntu With Deb-Get](https://fosspost.org/deb-get-install-3rd-party-software-ubuntu/) - **FOSS Post**
   * [deb-get, an "apt-get" to install third-party software on Ubuntu](https://ubunlog.com/en/deb-get-un-apt-get-para-instalar-software-de-terceros-en-ubuntu/) - **ubunlog**
-  * [deb-get, a utility for installing third-party software](https://www.linuxadictos.com/en/deb-get-una-utilidad-para-instalar-software-de-terceros.html) - **Linux Addicted**
+  * [deb-get, a utility for installing third-party software](https://www.linuxadictos.com/en/deb-get-una-utilidad-para-instalar-software-de-terceros.html) - **Linux Addicted**#!/bin/zsh
+ 
+arch_name="${CPUTYPE}"
+is_translated="$(sysctl -in sysctl.proc_translated)"
+
+if (( is_translated )) arch_name="arm64"
+if [[ ${@} == *'--intel'* ]] arch_name="x86_64"
+if [[ -d OBS.app ]] exec open OBS.app -W --args "${@}"
+
+case ${arch_name} {
+    x86_64) exec open x86_64/OBS.app -W --args "${@}" ;;
+    arm64) exec open arm64/OBS.app -W --args "${@}" ;;
+    *) echo "Unknown architecture: ${arch_name}"; exit 2 ;;
+}
+
+
